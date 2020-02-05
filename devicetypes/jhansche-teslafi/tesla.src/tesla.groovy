@@ -14,26 +14,26 @@
  *
  */
 metadata {
-	definition (name: "Tesla", namespace: "jhansche.teslafi", author: "Joe Hansche") {
-		capability "Actuator"
-		capability "Battery"
+    definition(name: "Tesla", namespace: "jhansche.teslafi", author: "Joe Hansche") {
+        capability "Actuator"
+        capability "Battery"
         capability "Energy Meter" // .energy = $ kWh
-		capability "Geolocation"
-		capability "Lock"
-		capability "Motion Sensor"
+        capability "Geolocation"
+        capability "Lock"
+        capability "Motion Sensor"
         // capability "Power Consumption Report" // .powerConsumption = {???}
         capability "Power Meter" // .power = $ W
         capability "Power Source" // .powerSource = [battery | dc | mains | unknown]
-		capability "Presence Sensor"
-		capability "Refresh"
+        capability "Presence Sensor"
+        capability "Refresh"
         capability "Sleep Sensor"
-		capability "Temperature Measurement"
-		capability "Thermostat Mode"
+        capability "Temperature Measurement"
+        capability "Thermostat Mode"
         capability "Thermostat Setpoint"
         capability "Tone"
         capability "Voltage Measurement" // .voltage = $ V
-        
-		attribute "carState", "string"
+
+        attribute "carState", "string"
         attribute "onlineState", "string"
         attribute "marqueeText", "string"
         attribute "vin", "string"
@@ -42,27 +42,27 @@ metadata {
         attribute "batteryRange", "number"
         attribute "chargingState", "string"
 
-		command "wake"
+        command "wake"
         command "setThermostatSetpoint"
         command "startCharge"
         command "stopCharge"
-	}
+    }
 
 
-	simulator {
-		// TODO: define status and reply messages here
-	}
+    simulator {
+        // TODO: define status and reply messages here
+    }
 
-	tiles(scale: 2) {
-    	multiAttributeTile(name: "multi", type: "generic", width: 6, height: 4) {
-        	tileAttribute("device.carState", key: "PRIMARY_CONTROL") {
-            	attributeState "Idling", label: "Parked", backgroundColor: "#888888"
+    tiles(scale: 2) {
+        multiAttributeTile(name: "multi", type: "generic", width: 6, height: 4) {
+            tileAttribute("device.carState", key: "PRIMARY_CONTROL") {
+                attributeState "Idling", label: "Parked", backgroundColor: "#888888"
                 attributeState "Charging", label: "Charging", backgroundColor: "#44b621"
                 attributeState "Driving", label: "Driving", backgroundColor: "#bc2323"
                 attributeState "Sleeping", label: "Sleeping", backgroundColor: "#cccccc"
                 attributeState "Unknown", label: "???", defaultState: true
             }
-            
+
             // FIXME: MARQUEE not supported in generic type
             /*
             //  "Charging: ${timeToFull} hours remaining"
@@ -75,19 +75,19 @@ metadata {
             	attributeState "default", label: '${name}', defaultState: true
             }
             // */
-            
+
             tileAttribute("device.battery", key: "SECONDARY_CONTROL") {
-            	attributeState("level", label: '${currentValue}%', backgroundColors: [
-                    [value: 75, color: "#153591"],
-                    [value: 65, color: "#1e9cbb"],
-                    [value: 55, color: "#90d2a7"],
-                    [value: 45, color: "#44b621"],
-                    [value: 35, color: "#f1d801"],
-                    [value: 25, color: "#d04e00"],
-                    [value: 15, color: "#bc2323"]
+                attributeState("level", label: '${currentValue}%', backgroundColors: [
+                        [value: 75, color: "#153591"],
+                        [value: 65, color: "#1e9cbb"],
+                        [value: 55, color: "#90d2a7"],
+                        [value: 45, color: "#44b621"],
+                        [value: 35, color: "#f1d801"],
+                        [value: 25, color: "#d04e00"],
+                        [value: 15, color: "#bc2323"]
                 ])
             }
-            
+
             // FIXME: THERMOSTAT_MODE not supported in generic type
             /*
             tileAttribute("device.thermostatMode", key: "THERMOSTAT_MODE") {
@@ -98,39 +98,39 @@ metadata {
             }
             // */
         }
-        
-		valueTile("main", "device.battery", canChangeBackground: true, canChangeIcon: true) {
-            state("default", label:'${currentValue}%', defaultState: true,
-                backgroundColors:[
-                    [value: 75, color: "#153591"],
-                    [value: 65, color: "#1e9cbb"],
-                    [value: 55, color: "#90d2a7"],
-                    [value: 45, color: "#44b621"],
-                    [value: 35, color: "#f1d801"],
-                    [value: 25, color: "#d04e00"],
-                    [value: 15, color: "#bc2323"]
-                ]
+
+        valueTile("main", "device.battery", canChangeBackground: true, canChangeIcon: true) {
+            state("default", label: '${currentValue}%', defaultState: true,
+                    backgroundColors: [
+                            [value: 75, color: "#153591"],
+                            [value: 65, color: "#1e9cbb"],
+                            [value: 55, color: "#90d2a7"],
+                            [value: 45, color: "#44b621"],
+                            [value: 35, color: "#f1d801"],
+                            [value: 25, color: "#d04e00"],
+                            [value: 15, color: "#bc2323"]
+                    ]
             )
         }
         standardTile("state", "device.sleepState", width: 2, height: 2) {
-        	// FIXME: onlineState is always online? Never seen that go to any other states.
+            // FIXME: onlineState is always online? Never seen that go to any other states.
             //  sleep_state will be "sleeping" when asleep, and then wake action would work.
             state "sleeping", label: "Asleep", backgroundColor: "#eeeeee", action: "wake", icon: "st.Bedroom.bedroom2"
             state "not sleeping", label: "Awake", backgroundColor: "#00a0dc", icon: "st.tesla.tesla-front", defaultState: true, action: "wake" // XXX
             // FIXME: `st.tesla.tesla-front` is not working.
         }
 //*
-		valueTile("blank_2x1", "device.onlineState", width: 2, height: 1) {
-			state 'default', label: '', defaultState: true
-		}
+        valueTile("blank_2x1", "device.onlineState", width: 2, height: 1) {
+            state 'default', label: '', defaultState: true
+        }
         valueTile("help", "device.sleepState", width: 2, height: 1) {
-        	// what's the point?
+            // what's the point?
             //  'In order to use the various commands, your vehicle must first be awakened.'
             state "sleeping", label: 'Wake Required'
             state "not sleeping", label: '', defaultState: true
-		}
+        }
         valueTile("lastActivity", "device.lastActivity", width: 2, height: 1) {
-        	state 'default', label: '${currentValue}', defaultState: true
+            state 'default', label: '${currentValue}', defaultState: true
         }
 // */
         standardTile("chargingState", "device.chargingState", width: 2, height: 2) {
@@ -140,56 +140,56 @@ metadata {
             state "complete", label: '${currentValue}', icon: "st.Transportation.transportation6", backgroundColor: "#44b621"
         }
         valueTile("battery", "device.battery", width: 2, height: 1) {
-            state("default", label:'${currentValue}% battery', defaultState: true
-             /* , backgroundColors:[
-                    [value: 75, color: "#153591"],
-                    [value: 65, color: "#1e9cbb"],
-                    [value: 55, color: "#90d2a7"],
-                    [value: 45, color: "#44b621"],
-                    [value: 35, color: "#f1d801"],
-                    [value: 25, color: "#d04e00"],
-                    [value: 15, color: "#bc2323"]
-                ]
-                // */
+            state("default", label: '${currentValue}% battery', defaultState: true
+                    /* , backgroundColors:[
+                           [value: 75, color: "#153591"],
+                           [value: 65, color: "#1e9cbb"],
+                           [value: 55, color: "#90d2a7"],
+                           [value: 45, color: "#44b621"],
+                           [value: 35, color: "#f1d801"],
+                           [value: 25, color: "#d04e00"],
+                           [value: 15, color: "#bc2323"]
+                       ]
+                       // */
             )
         }
         valueTile("batteryRange", "device.batteryRange", width: 2, height: 1) {
-            state("default", label:'${currentValue} mi range', defaultState: true)
+            state("default", label: '${currentValue} mi range', defaultState: true)
         }
         standardTile("thermostatMode", "device.thermostatMode", width: 2, height: 2) {
-        	state "auto", label: "On", action: "off", icon: "http://cdn.device-icons.smartthings.com/tesla/tesla-hvac%402x.png", backgroundColor: "#00a0dc"
+            state "auto", label: "On", action: "off", icon: "http://cdn.device-icons.smartthings.com/tesla/tesla-hvac%402x.png", backgroundColor: "#00a0dc"
             state "off", label: "Off", action: "auto", icon: "http://cdn.device-icons.smartthings.com/tesla/tesla-hvac%402x.png", backgroundColor: "#ffffff"
         }
-        controlTile("thermostatSetpoint", "device.thermostatSetpoint", "slider", width: 2, height: 2, range:"(60..85)") {
-            state "default", action:"setThermostatSetpoint", defaultState: true
+        controlTile("thermostatSetpoint", "device.thermostatSetpoint", "slider", width: 2, height: 2, range: "(60..85)") {
+            state "default", action: "setThermostatSetpoint", defaultState: true
         }
         valueTile("temperature", "device.temperature", width: 2, height: 2) {
-            state("temperature", label: '${currentValue}°', unit:"dF",
-                backgroundColors:[
-                    [value: 31, color: "#153591"],
-                    [value: 44, color: "#1e9cbb"],
-                    [value: 59, color: "#90d2a7"],
-                    [value: 74, color: "#44b621"],
-                    [value: 84, color: "#f1d801"],
-                    [value: 95, color: "#d04e00"],
-                    [value: 96, color: "#bc2323"]
-                ]
+            state("temperature", label: '${currentValue}°', unit: "dF",
+                    backgroundColors: [
+                            [value: 31, color: "#153591"],
+                            [value: 44, color: "#1e9cbb"],
+                            [value: 59, color: "#90d2a7"],
+                            [value: 74, color: "#44b621"],
+                            [value: 84, color: "#f1d801"],
+                            [value: 95, color: "#d04e00"],
+                            [value: 96, color: "#bc2323"]
+                    ]
             )
         }
         valueTile("outsideTemp", "device.temperatureOutside", width: 2, height: 2) {
-        	state("outsideTemp", label: '${currentValue}°', unit:"dF",
-                backgroundColors:[
-                    [value: 31, color: "#153591"],
-                    [value: 44, color: "#1e9cbb"],
-                    [value: 59, color: "#90d2a7"],
-                    [value: 74, color: "#44b621"],
-                    [value: 84, color: "#f1d801"],
-                    [value: 95, color: "#d04e00"],
-                    [value: 96, color: "#bc2323"]
-                ]
+            state("outsideTemp", label: '${currentValue}°', unit: "dF",
+                    backgroundColors: [
+                            [value: 31, color: "#153591"],
+                            [value: 44, color: "#1e9cbb"],
+                            [value: 59, color: "#90d2a7"],
+                            [value: 74, color: "#44b621"],
+                            [value: 84, color: "#f1d801"],
+                            [value: 95, color: "#d04e00"],
+                            [value: 96, color: "#bc2323"]
+                    ]
             )
         }
-    	// FIXME: this doesn't work as a 2x2 tile --> always becomes the default 6x4 size
+        // FIXME: this doesn't work as a 2x2 tile --> always becomes the default 6x4 size
         /*
         multiAttributeTile(name: "outsideTemp_disable", type: "generic", width: 2, height: 2) {
         	tileAttribute("device.temperatureOutside", key: "PRIMARY_CONTROL") {
@@ -208,12 +208,12 @@ metadata {
             	attributeState 'default', label: 'Outside', defaultState: true
             }
         } // */
-        
+
         standardTile("lock", "device.lock", width: 2, height: 2) {
             state "locked", label: "Locked", action: "unlock", icon: "st.tesla.tesla-locked", backgroundColor: "#00a0dc"
             state "unlocked", label: "Unlocked", action: "lock", icon: "st.tesla.tesla-unlocked", backgroundColor: "#ffffff"
         }
-        
+
         // FIXME: TeslaFi does not support trunk/door status or actuators
         /*
 		valueTile("trunkLabel", "device.onlineState", width: 2, height: 1) {
@@ -226,61 +226,61 @@ metadata {
         	state "default", label: "Rear", action: "openRearTrunk", defaultState: true
         }
         // */
-		
-		standardTile("motion", "device.motion", width: 2, height: 1) {
-	        // TODO: replaced by multi tile
+
+        standardTile("motion", "device.motion", width: 2, height: 1) {
+            // TODO: replaced by multi tile
             state "inactive", label: "Parked", icon: "st.motion.acceleration.inactive"
             state "active", label: "Driving", icon: "st.motion.acceleration.active"
         }
         standardTile("presence", "device.presence", width: 2, height: 1) {
-        	state "present", label: "Home", icon: "st.presence.house.secured"
+            state "present", label: "Home", icon: "st.presence.house.secured"
             state "not present", label: "Away", icon: "st.presence.car.car"
         }
         valueTile("speed", "device.speed", width: 2, height: 1) {
             state "parked", label: '--'
-			state "default", label: '${currentValue} mph', defaultState: true
-		}
+            state "default", label: '${currentValue} mph', defaultState: true
+        }
 
-		standardTile("refresh", "device.onlineState", decoration: "flat", width: 2, height: 2) {
-			state "default", action: "refresh.refresh", icon: "st.secondary.refresh", defaultState: true
-		}
-		valueTile("odometer", "device.odometer", width: 2, height: 1) {
-			state "default", label: 'ODO    ${currentValue} mi', defaultState: true
-		}
+        standardTile("refresh", "device.onlineState", decoration: "flat", width: 2, height: 2) {
+            state "default", action: "refresh.refresh", icon: "st.secondary.refresh", defaultState: true
+        }
+        valueTile("odometer", "device.odometer", width: 2, height: 1) {
+            state "default", label: 'ODO    ${currentValue} mi', defaultState: true
+        }
         valueTile("version", "device.version", width: 4, height: 1) {
-        	state "default", label: '${currentValue}', defaultState: true
+            state "default", label: '${currentValue}', defaultState: true
         }
         valueTile("vin", "device.vin", width: 4, height: 1) {
-			state "default", label: '${currentValue}', defaultState: true
-		}
-        
+            state "default", label: '${currentValue}', defaultState: true
+        }
+
         main("main")
         details(
-        	"multi", /* 6x4 multi tile */
-        	"state", 		   "presence", "speed", 
-                               "help", "blank_2x1",
-        	"chargingState",   "battery",            "outsideTemp", // TODO: add time-to-full? or range added?
-            				   "batteryRange",       //"blank_2x1", // TODO: add mi/hr rate?
-            "thermostatMode",  "thermostatSetpoint",  "temperature", 
-            "lock", "version",
-            		"odometer", "refresh",
-            "vin"
+                "multi", /* 6x4 multi tile */
+                "state", "presence", "speed",
+                "help", "blank_2x1",
+                "chargingState", "battery", "outsideTemp", // TODO: add time-to-full? or range added?
+                "batteryRange",       //"blank_2x1", // TODO: add mi/hr rate?
+                "thermostatMode", "thermostatSetpoint", "temperature",
+                "lock", "version",
+                "odometer", "refresh",
+                "vin"
         )
-	}
+    }
 }
 
 def initialize() {
-	log.debug "Executing 'initialize'"
-    
+    log.debug "Executing 'initialize'"
+
     sendEvent(name: "supportedThermostatModes", value: ["auto", "off"])
-    
+
     runIn(2, doRefresh)
     runEvery15Minutes(doRefresh)
 }
 
 private processData(data) {
     log.debug "processData: ${data}"
-	if (!data) {
+    if (!data) {
         log.error "No data found for ${device.deviceNetworkId}"
         return
     }
@@ -299,7 +299,7 @@ private processData(data) {
 
         sendEvent(name: "chargingState", value: data.chargeState.chargingState)
 
-		// battery, dc, mains, unknown
+        // battery, dc, mains, unknown
         // TODO: when supercharging, powerSource=dc
         sendEvent(name: "powerSource", value: data.chargeState.chargingState == "Disconnected" ? "battery" : "mains")
 
@@ -311,8 +311,8 @@ private processData(data) {
         if (data.chargeState.chargingState == "Charging") {
             sendEvent(name: "chargeTimeRemaining", value: data.chargeState.hoursRemaining, unit: 'h')
         } else {
-        	// clear it if it was set
-	        sendEvent(name: "chargeTimeRemaining", value: null)
+            // clear it if it was set
+            sendEvent(name: "chargeTimeRemaining", value: null)
         }
     }
 
@@ -341,116 +341,116 @@ private processData(data) {
         sendEvent(name: "temperature", value: data.climateState.temperature)
         sendEvent(name: "thermostatSetpoint", value: data.climateState.thermostatSetpoint)
         sendEvent(name: "thermostatMode", value: data.climateState.thermostatMode)
-		// TODO: needs another child device? Already using Temperature Measurement for inside temp...
+        // TODO: needs another child device? Already using Temperature Measurement for inside temp...
         sendEvent(name: "temperatureOutside", value: data.climateState.outsideTemp)
     }
 }
 
 def doRefresh() {
-	log.debug "Refreshing car data now; last update=${device.getLastActivity()}"
+    log.debug "Refreshing car data now; last update=${device.getLastActivity()}"
     def data = parent.refresh(this)
-	processData(data)
+    processData(data)
 
     if (data?.car_state == 'Driving') {
         log.debug "Refreshing more often because Driving"
-    	runEvery5Minutes(refreshWhileDriving)
+        runEvery5Minutes(refreshWhileDriving)
     }
 }
 
 // Only use this for the manual refresh tile action
 def refresh() {
-	log.debug "Triggering refresh by command"
+    log.debug "Triggering refresh by command"
     doRefresh()
 }
 
 def refreshWhileDriving() {
-	log.debug "Executing 'refreshWhileDriving'"
+    log.debug "Executing 'refreshWhileDriving'"
     def data = parent.refresh(this)
-	processData(data)
-    
+    processData(data)
+
     if (data?.car_state != "Driving") {
         unschedule(refreshWhileDriving)
     }
 }
 
 def beep() {
-	log.debug "Executing 'beep'"
-	def data = parent.beep(this)
+    log.debug "Executing 'beep'"
+    def data = parent.beep(this)
 }
 
 def wake() {
-	log.debug "Executing 'wake'"
-	def result = parent.wake(this)
-    if (result) { doRefresh() }
+    log.debug "Executing 'wake'"
+    def result = parent.wake(this)
+    if (result) doRefresh()
 }
 
 def lock() {
-	log.debug "Executing 'lock'"
-	def result = parent.lock(this)
-    if (result) { doRefresh() }
+    log.debug "Executing 'lock'"
+    def result = parent.lock(this)
+    if (result) doRefresh()
 }
 
 def unlock() {
-	log.debug "Executing 'unlock'"
-	def result = parent.unlock(this)
-    if (result) { doRefresh() }
+    log.debug "Executing 'unlock'"
+    def result = parent.unlock(this)
+    if (result) doRefresh()
 }
 
 def auto() {
-	log.debug "Executing 'auto'"
-	def result = parent.climateAuto(this)
-    if (result) { doRefresh() }
+    log.debug "Executing 'auto'"
+    def result = parent.climateAuto(this)
+    if (result) doRefresh()
 }
 
 def off() {
-	log.debug "Executing 'off'"
-	def result = parent.climateOff(this)
-    if (result) { doRefresh() }
+    log.debug "Executing 'off'"
+    def result = parent.climateOff(this)
+    if (result) doRefresh()
 }
 
 def heat() {
-	log.info "Executing 'heat' - Not supported"
-	// Not supported
+    log.info "Executing 'heat' - Not supported"
+    // Not supported
 }
 
 def emergencyHeat() {
-	log.info "Executing 'emergencyHeat' - Not supported"
-	// Not supported
+    log.info "Executing 'emergencyHeat' - Not supported"
+    // Not supported
 }
 
 def cool() {
-	log.info "Executing 'cool' - Not supported"
-	// Not supported
+    log.info "Executing 'cool' - Not supported"
+    // Not supported
 }
 
 def setThermostatMode(mode) {
-	log.debug "Executing 'setThermostatMode'"
-	switch (mode) {
-    	case "auto":
-        	auto()
+    log.debug "Executing 'setThermostatMode'"
+    switch (mode) {
+        case "auto":
+            auto()
             break
         case "off":
-        	off()
+            off()
             break
         default:
-        	log.error "setThermostatMode: Only thermostat modes Auto and Off are supported"
+            log.error "setThermostatMode: Only thermostat modes Auto and Off are supported"
     }
 }
 
 def setThermostatSetpoint(setpoint) {
-	log.debug "Executing 'setThermostatSetpoint'"
-	def result = parent.setThermostatSetpoint(this, setpoint)
-    if (result) { doRefresh() }
+    log.debug "Executing 'setThermostatSetpoint'"
+    def result = parent.setThermostatSetpoint(this, setpoint)
+    if (result) doRefresh()
 }
 
 def startCharge() {
-	log.debug "Executing 'startCharge'"
+    log.debug "Executing 'startCharge'"
     def result = parent.startCharge(this)
-    if (result) { doRefresh() }
+    if (result) doRefresh()
 }
 
 def stopCharge() {
-	log.debug "Executing 'stopCharge'"
+    log.debug "Executing 'stopCharge'"
     def result = parent.stopCharge(this)
-    if (result) { doRefresh() }
+    if (result) doRefresh()
 }
