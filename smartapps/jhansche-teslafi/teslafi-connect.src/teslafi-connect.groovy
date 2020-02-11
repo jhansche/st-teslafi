@@ -150,6 +150,10 @@ def refreshVehicles() {
             chargeEnergyAdded: data.charge_energy_added?.toFloat(), // charge_energy_added // 1.57 kWh
             chargeRate: data.charge_rate?.toFloat(), // = ~0.6 MPH
 
+            fastChargerPresent: data.fast_charger_present == "1",
+            fastChargerBrand: data.fast_charger_brand,
+            fastChargerType: data.fast_charger_type,
+
             // chargerType: L1, L2, L3
             // Tesla Supercharging (see chargeNumber=632), powerSource=dc
             // fast_charger_type == "Tesla" or fast_charger_brand = "Tesla"? If that's brand, what is type?

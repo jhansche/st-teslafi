@@ -21,7 +21,7 @@ metadata {
         capability "Geolocation"
         capability "Lock"
         capability "Motion Sensor"
-        // capability "Power Consumption Report" // .powerConsumption = {???}
+        // capability "Power Consumption Report" // https://docs.smartthings.com/en/latest/capabilities-reference.html#id63
         capability "Power Meter" // .power = $ W
         capability "Power Source" // .powerSource = [battery | dc | mains | unknown]
         capability "Presence Sensor"
@@ -30,6 +30,7 @@ metadata {
         capability "Temperature Measurement"
         capability "Thermostat Mode"
         capability "Thermostat Setpoint"
+        capability "Timed Session" // .completionTime, .sessionStatus; https://docs.smartthings.com/en/latest/capabilities-reference.html#id97
         capability "Tone"
         capability "Voltage Measurement" // .voltage = $ V
 
@@ -47,7 +48,6 @@ metadata {
         command "startCharge"
         command "stopCharge"
     }
-
 
     simulator {
         // TODO: define status and reply messages here
@@ -301,18 +301,43 @@ private processData(data) {
 
         // battery, dc, mains, unknown
         // TODO: when supercharging, powerSource=dc
-        sendEvent(name: "powerSource", value: data.chargeState.chargingState == "Disconnected" ? "battery" : "mains")
+        if (data.chargeState.chargingState == "Disconnected") {
+            sendEvent(name: "powerSource", value: "battery")
+        } else if (data.chargeState.fastChargerPresent) {
+            // Assuming that fastChargerPresent => Supercharger => DC
+            sendEvent(name: "powerSource", value: "dc")
+            try {
+                // XXX: determine the true nature of these fields
+                log.info("JHH: fast* fields: ${data.chargeState}")
+                sendEvent(name: "jhh.fastType", value: data.chargeState.fastChargerType)
+                sendEvent(name: "jhh.fastBrand", value: data.chargeState.fastChargerBrand)
+            } catch (Exception e) {
+                log.error("JHH: unable to emit fast* events", e)
+            }
+        } else {
+            sendEvent(name: "powerSource", value: "mains")
+        }
 
-        // TODO: maybe a Timed Session for charge session; includes estimated completion time
         sendEvent(name: "energy", value: data.chargeState.chargeEnergyAdded, unit: 'kWh')
         sendEvent(name: "voltage", value: data.chargeState.chargerVoltage, unit: 'V')
         sendEvent(name: "power", value: data.chargeState.chargerPower, unit: 'kW') // kW to W
 
         if (data.chargeState.chargingState == "Charging") {
             sendEvent(name: "chargeTimeRemaining", value: data.chargeState.hoursRemaining, unit: 'h')
+
+            // Timed Session
+            if (data.chargeState.hoursRemaining != null) {
+                def minutesRemaining = (data.chargeState.hoursRemaining as float) * 60
+                def eta = new GregorianCalendar()
+                eta.add(Calendar.MINUTE, Math.round(minutesRemaining as float))
+                log.info "JHH New completion time: ${eta.time}"
+                sendEvent(name: "completionTime", value: eta.time)
+            }
+            sendEvent(name: "sessionStatus", value: "running")
         } else {
             // clear it if it was set
             sendEvent(name: "chargeTimeRemaining", value: null)
+            sendEvent(name: "sessionStatus", value: "stopped")
         }
     }
 
