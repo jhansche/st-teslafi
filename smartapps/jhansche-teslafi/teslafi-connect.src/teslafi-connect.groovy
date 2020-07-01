@@ -179,7 +179,7 @@ def refreshVehicles() {
             tagged: data.location,
     ]
     def isHome = result.location.tagged?.toLowerCase()?.contains("home") ||
-            result.location.homeLink != null
+            result.location.homeLink == "1"
 
     result.vehicleState = [
             presence: isHome ? "present" : "not present",
