@@ -41,6 +41,7 @@ metadata {
         attribute "version", "string"
         attribute "odometer", "number"
         attribute "batteryRange", "number"
+        attribute "batteryBoth", "string"
         attribute "chargingState", "string"
 
         command "wake"
@@ -139,7 +140,10 @@ metadata {
             state "Charging", label: '${currentValue}', icon: "st.Transportation.transportation6", action: "stopCharge", backgroundColor: "#00a0dc"
             state "complete", label: '${currentValue}', icon: "st.Transportation.transportation6", backgroundColor: "#44b621"
         }
-        valueTile("battery", "device.battery", width: 2, height: 1) {
+        valueTile("chargeTimeRemaining", "device.chargeTimeRemaining", width: 2, height: 1) {
+        	state("default", label: '${currentValue}h', defaultState: true)
+        }
+        valueTile("batteryPct", "device.battery", width: 2, height: 1) {
             state("default", label: '${currentValue}% battery', defaultState: true
                     /* , backgroundColors:[
                            [value: 75, color: "#153591"],
@@ -155,6 +159,9 @@ metadata {
         }
         valueTile("batteryRange", "device.batteryRange", width: 2, height: 1) {
             state("default", label: '${currentValue} mi range', defaultState: true)
+        }
+        valueTile("batteryBoth", "device.batteryBoth", width: 2, height:1) {
+        	state("default", label: '${currentValue}', defaultState: true)
         }
         standardTile("thermostatMode", "device.thermostatMode", width: 2, height: 2) {
             state "auto", label: "On", action: "off", icon: "http://cdn.device-icons.smartthings.com/tesla/tesla-hvac%402x.png", backgroundColor: "#00a0dc"
@@ -259,8 +266,8 @@ metadata {
                 "multi", /* 6x4 multi tile */
                 "state", "presence", "speed",
                 "help", "blank_2x1",
-                "chargingState", "battery", "outsideTemp", // TODO: add time-to-full? or range added?
-                "batteryRange",       //"blank_2x1", // TODO: add mi/hr rate?
+                "chargingState", "batteryBoth", "outsideTemp", // TODO: add time-to-full? or range added?
+                "chargeTimeRemaining",       //"blank_2x1", // TODO: add mi/hr rate?
                 "thermostatMode", "thermostatSetpoint", "temperature",
                 "lock", "version",
                 "odometer", "refresh",
@@ -295,7 +302,9 @@ private processData(data) {
     if (data.chargeState) {
         // Battery
         sendEvent(name: "battery", value: data.chargeState.battery, unit: '%')
-        sendEvent(name: "batteryRange", value: data.chargeState.batteryRange)
+        sendEvent(name: "batteryRange", value: data.chargeState.batteryRange, unit: 'mi')
+        def batteryComboString = "${data.chargeState.battery}%\n${data.chargeState.batteryRange} mi"
+        sendEvent(name: "batteryBoth", value: batteryComboString)
 
         sendEvent(name: "chargingState", value: data.chargeState.chargingState)
 
