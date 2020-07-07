@@ -183,7 +183,7 @@ def refreshVehicles() {
 
     result.vehicleState = [
             presence: isHome ? "present" : "not present",
-            lock: data.locked ? "locked" : "unlocked",
+            lock: data.locked == "1" ? "locked" : "unlocked",
             odometer: data.odometer?.toFloat(),
     ]
 
