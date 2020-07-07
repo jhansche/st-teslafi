@@ -328,10 +328,18 @@ private processData(data) {
             // Timed Session
             if (data.chargeState.hoursRemaining != null) {
                 def minutesRemaining = (data.chargeState.hoursRemaining as float) * 60
-                def eta = new GregorianCalendar()
+                def eta = Calendar.getInstance(location.timeZone)
+                eta.set(Calendar.SECOND, 0)
+                eta.set(Calendar.MILLISECOND, 0)
                 eta.add(Calendar.MINUTE, Math.round(minutesRemaining as float))
-                log.info "JHH New completion time: ${eta.time}"
-                sendEvent(name: "completionTime", value: eta.time)
+                
+                if (minutesRemaining > 120) {
+                    // If it's going to be longer than 2 hours, just round completion time to the nearest quarter-hour
+                    def delta = eta.get(Calendar.MINUTE) % 15
+                    eta.add(Calendar.MINUTE, delta < 8 ? -delta : (15 - delta))
+                }
+                
+                sendEvent(name: "completionTime", value: eta.time.format("EEE MMM dd HH:mm:ss zzz yyyy", location.timeZone))
             }
             sendEvent(name: "sessionStatus", value: "running")
         } else {
