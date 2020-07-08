@@ -164,8 +164,8 @@ metadata {
         	state("default", label: '${currentValue}', defaultState: true)
         }
         standardTile("thermostatMode", "device.thermostatMode", width: 2, height: 2) {
-            state "auto", label: "On", action: "off", icon: "http://cdn.device-icons.smartthings.com/tesla/tesla-hvac%402x.png", backgroundColor: "#00a0dc"
-            state "off", label: "Off", action: "auto", icon: "http://cdn.device-icons.smartthings.com/tesla/tesla-hvac%402x.png", backgroundColor: "#ffffff"
+            state "auto", label: "On", action: "off", icon: "st.tesla.tesla-hvac", backgroundColor: "#00a0dc"
+            state "off", label: "Off", action: "auto", icon: "st.tesla.tesla-hvac", backgroundColor: "#ffffff"
         }
         controlTile("thermostatSetpoint", "device.thermostatSetpoint", "slider", width: 2, height: 2, range: "(60..85)") {
             state "default", action: "setThermostatSetpoint", defaultState: true
