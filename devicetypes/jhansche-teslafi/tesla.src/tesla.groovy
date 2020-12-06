@@ -14,7 +14,11 @@
  *
  */
 metadata {
-    definition(name: "Tesla", namespace: "jhansche.teslafi", author: "Joe Hansche") {
+    definition(
+        name: "Tesla", 
+        namespace: "jhansche.teslafi", 
+        author: "Joe Hansche"
+    ) {
         capability "Actuator"
         capability "Battery"
         capability "Energy Meter" // .energy = $ kWh
@@ -282,7 +286,7 @@ def initialize() {
     sendEvent(name: "supportedThermostatModes", value: ["auto", "off"])
 
     runIn(2, doRefresh)
-    runEvery15Minutes(doRefresh)
+    runEvery5Minutes(doRefresh)
 }
 
 private processData(data) {
@@ -361,7 +365,7 @@ private processData(data) {
     if (data.driveState) {
         // Geolocation:
         if (data.driveState.speed < 0) {
-            sendEvent(name: "speed", value: "parked")
+            sendEvent(name: "speed", value: "parked", isStateChange: false)
         } else {
             sendEvent(name: "speed", value: data.driveState.speed, unit: "mph")
         }
@@ -370,7 +374,7 @@ private processData(data) {
         sendEvent(name: "method", value: data.driveState.method)
         sendEvent(name: "heading", value: data.driveState.heading)
         // lastUpdateTime = gps_as_of (unix timestamp)
-        sendEvent(name: "lastUpdateTime", value: data.driveState.lastUpdateTime)
+        sendEvent(name: "lastUpdateTime", value: data.driveState.lastUpdateTime, displayed: false)
     }
 
     if (data.vehicleState) {
@@ -380,11 +384,11 @@ private processData(data) {
     }
 
     if (data.climateState) {
-        sendEvent(name: "temperature", value: data.climateState.temperature)
+        sendEvent(name: "temperature", value: data.climateState.temperature, unit: 'F')
         sendEvent(name: "thermostatSetpoint", value: data.climateState.thermostatSetpoint)
         sendEvent(name: "thermostatMode", value: data.climateState.thermostatMode)
         // TODO: needs another child device? Already using Temperature Measurement for inside temp...
-        sendEvent(name: "temperatureOutside", value: data.climateState.outsideTemp)
+        sendEvent(name: "temperatureOutside", value: data.climateState.outsideTemp, unit: 'F')
     }
 }
 
@@ -395,7 +399,7 @@ def doRefresh() {
 
     if (data?.car_state == 'Driving') {
         log.debug "Refreshing more often because Driving"
-        runEvery5Minutes(refreshWhileDriving)
+        runEvery1Minute(refreshWhileDriving)
     }
 }
 
