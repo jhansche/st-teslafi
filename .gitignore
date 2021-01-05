@@ -1,3 +1,7 @@
 devicetypes/*.iml
 smartapps/*.iml
 gdsl/*.iml
+.idea/
+*.iml
+smartthings.log
+gdsl
