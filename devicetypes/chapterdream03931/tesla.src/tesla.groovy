@@ -113,8 +113,10 @@ private processData(data) {
             sendEvent(name: "chapterdream03931.electricVehicle.batteryRange", value: data.chargeState.batteryRange, unit: 'mi')
         }
 
-        if (device.currentValue("chargingState") != data.chargeState.chargingState) {
-            sendEvent(name: "chapterdream03931.electricVehicle.chargingState", value: data.chargeState.chargingState)
+        if (true || device.currentValue("chargingState") != data.chargeState.chargingState) {
+            sendEvent(name: "chapterdream03931.electricVehicleCharger.chargingState", value: data.chargeState.chargingState)
+            sendEvent(name: "chapterdream03931.electricVehicle.chargingState", value: null) // XXX delete
+            sendEvent(name: "chapterdream03931.electricVehicle.chargeMax", value: null) // XXX delete
         }
 
         // battery, dc, mains, unknown
