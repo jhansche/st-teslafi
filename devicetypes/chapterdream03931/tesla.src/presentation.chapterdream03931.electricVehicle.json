@@ -24,7 +24,7 @@
             "label": "Battery Range",
             "displayType": "state",
             "state": {
-                "label": "{{batteryRange.value}}",
+                "label": "{{batteryRange.value}} {{batteryRange.unit}}",
                 "unit": "batteryRange.unit"
             }
         }
