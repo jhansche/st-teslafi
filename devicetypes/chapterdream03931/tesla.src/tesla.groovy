@@ -20,7 +20,7 @@ metadata {
             author: "Joe Hansche",
             mnmn: "SmartThingsCommunity",
             ocfDeviceType: "x.com.st.d.tesla",
-            vid: "d45508a6-ff8a-345c-8898-61cb0b3a9466"
+            vid: "8f9a3294-cb42-3ceb-bca6-511b38454c47"
     ) {
         // .vin, .hwVersion, .swVersion, .odometerMiles,
         // .carState = [Sleeping | Idling | Driving]
