@@ -106,13 +106,6 @@
         },
         {
             "component": "main",
-            "capability": "temperatureMeasurement",
-            "version": 1,
-            "values": [],
-            "patch": []
-        },
-        {
-            "component": "main",
             "capability": "battery",
             "version": 1,
             "values": [],
@@ -120,49 +113,14 @@
         },
         {
             "component": "main",
-            "capability": "motionSensor",
+            "capability": "powerSource",
             "version": 1,
             "values": [],
             "patch": []
         },
         {
             "component": "main",
-            "capability": "presenceSensor",
-            "version": 1,
-            "values": [],
-            "patch": []
-        },
-        {
-            "component": "main",
-            "capability": "lock",
-            "version": 1,
-            "values": [],
-            "patch": []
-        },
-        {
-            "component": "main",
-            "capability": "refresh",
-            "version": 1,
-            "values": [],
-            "patch": []
-        },
-        {
-            "component": "main",
-            "capability": "energyMeter",
-            "version": 1,
-            "values": [],
-            "patch": []
-        },
-        {
-            "component": "main",
-            "capability": "powerMeter",
-            "version": 1,
-            "values": [],
-            "patch": []
-        },
-        {
-            "component": "main",
-            "capability": "sleepSensor",
+            "capability": "temperatureMeasurement",
             "version": 1,
             "values": [],
             "patch": []
@@ -183,7 +141,49 @@
         },
         {
             "component": "main",
+            "capability": "lock",
+            "version": 1,
+            "values": [],
+            "patch": []
+        },
+        {
+            "component": "main",
+            "capability": "motionSensor",
+            "version": 1,
+            "values": [],
+            "patch": []
+        },
+        {
+            "component": "main",
+            "capability": "presenceSensor",
+            "version": 1,
+            "values": [],
+            "patch": []
+        },
+        {
+            "component": "main",
+            "capability": "refresh",
+            "version": 1,
+            "values": [],
+            "patch": []
+        },
+        {
+            "component": "main",
+            "capability": "geolocation",
+            "version": 1,
+            "values": [],
+            "patch": []
+        },
+        {
+            "component": "main",
             "capability": "timedSession",
+            "version": 1,
+            "values": [],
+            "patch": []
+        },
+        {
+            "component": "main",
+            "capability": "energyMeter",
             "version": 1,
             "values": [],
             "patch": []
@@ -197,14 +197,14 @@
         },
         {
             "component": "main",
-            "capability": "powerSource",
+            "capability": "powerMeter",
             "version": 1,
             "values": [],
             "patch": []
         },
         {
             "component": "main",
-            "capability": "geolocation",
+            "capability": "sleepSensor",
             "version": 1,
             "values": [],
             "patch": []
@@ -435,7 +435,12 @@
                 "component": "main",
                 "capability": "powerSource",
                 "version": 1,
-                "values": [],
+                "values": [
+                    {
+                        "key": "powerSource",
+                        "enabledValues": []
+                    }
+                ],
                 "patch": []
             },
             {
@@ -468,8 +473,8 @@
             }
         ]
     },
-    "presentationId": "8f9a3294-cb42-3ceb-bca6-511b38454c47",
+    "presentationId": "86e40fa8-38e9-3e9c-a069-4a58ad18715a",
     "manufacturerName": "SmartThingsCommunity",
-    "vid": "8f9a3294-cb42-3ceb-bca6-511b38454c47",
+    "vid": "86e40fa8-38e9-3e9c-a069-4a58ad18715a",
     "mnmn": "SmartThingsCommunity"
 }
