@@ -1,0 +1,62 @@
+{
+    "dashboard": {
+        "states": [],
+        "actions": [],
+        "basicPlus": []
+    },
+    "detailView": [
+        {
+            "label": "VIN",
+            "displayType": "state",
+            "state": {
+                "label": "{{vin.value}}"
+            }
+        },
+        {
+            "label": "Version",
+            "displayType": "state",
+            "state": {
+                "label": "{{swVersion.value}}"
+            }
+        },
+        {
+            "label": "Car State",
+            "displayType": "state",
+            "state": {
+                "label": "{{carState.value}}"
+            }
+        }
+    ],
+    "automation": {
+        "conditions": [
+            {
+                "label": "Car State",
+                "displayType": "list",
+                "list": {
+                    "alternatives": [
+                        {
+                            "key": "Sleeping",
+                            "value": "Sleeping",
+                            "type": "inactive"
+                        },
+                        {
+                            "key": "Idling",
+                            "value": "Idle",
+                            "type": "inactive"
+                        },
+                        {
+                            "key": "Driving",
+                            "value": "Driving",
+                            "type": "active"
+                        }
+                    ],
+                    "value": "carState.value",
+                    "multiSelection": false
+                }
+            }
+        ],
+        "actions": []
+    },
+    "id": "chapterdream03931.automobile",
+    "version": 1
+}

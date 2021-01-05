@@ -1,0 +1,100 @@
+{
+    "dashboard": {
+        "states": [
+            {
+                "label": "{{batteryRange.value}} {{batteryRange.unit}} range"
+            },
+            {
+                "label": "ZzZ {{battery.value}} {{battery.unit}}"
+            }
+        ],
+        "actions": [],
+        "basicPlus": []
+    },
+    "detailView": [
+        {
+            "label": "Battery Range",
+            "displayType": "state",
+            "state": {
+                "label": "{{batteryRange.value}}",
+                "unit": "batteryRange.unit"
+            }
+        },
+        {
+            "label": "Charge Max",
+            "displayType": "slider",
+            "slider": {
+                "range": [
+                    0,
+                    100
+                ],
+                "unit": "chargeMax.unit",
+                "value": "chargeMax.value",
+                "valueType": "number"
+            }
+        },
+        {
+            "label": "Charger State",
+            "displayType": "state",
+            "state": {
+                "label": "{{chargingState.value}}",
+                "alternatives": [
+                    {
+                        "key": "charging",
+                        "value": "Charging",
+                        "type": "active"
+                    },
+                    {
+                        "key": "not_charging",
+                        "value": "Not charging",
+                        "type": "inactive"
+                    },
+                    {
+                        "key": "completed",
+                        "value": "Completed",
+                        "type": "inactive"
+                    }
+                ]
+            }
+        },
+        {
+            "label": "Charge Completion",
+            "displayType": "state",
+            "state": {
+                "label": "{{timedSession.completionTime}}"
+            }
+        }
+    ],
+    "automation": {
+        "conditions": [
+            {
+                "label": "Charger State",
+                "displayType": "list",
+                "list": {
+                    "alternatives": [
+                        {
+                            "key": "charging",
+                            "value": "Charging",
+                            "type": "active"
+                        },
+                        {
+                            "key": "not_charging",
+                            "value": "Not Charging",
+                            "type": "inactive"
+                        },
+                        {
+                            "key": "completed",
+                            "value": "Completed",
+                            "type": "inactive"
+                        }
+                    ],
+                    "value": "chargingState.value",
+                    "multiSelection": false
+                }
+            }
+        ],
+        "actions": []
+    },
+    "id": "chapterdream03931.electricVehicle",
+    "version": 1
+}
