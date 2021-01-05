@@ -103,21 +103,18 @@ private processData(data) {
         // Battery
         sendEvent(name: "battery", value: data.chargeState.battery, unit: '%')
         
-        // FIXME: none of these are working correctly
-        sendEvent(name: "chargeMax", value: data.chargeState.chargeMax, unit: '%')
-        // XXX: wtf is happening here?
-        // error java.lang.NullPointerException: Cannot get property 'value' on null object @line 102 (processData)
-//		sendEvent(name: "chapterdream03931.electricVehicle.chargeMax", value: 36.toFloat())
-
         if (device.currentValue("batteryRange")?.toFloat() != data.chargeState.batteryRange) {
             sendEvent(name: "chapterdream03931.electricVehicle.batteryRange", value: data.chargeState.batteryRange, unit: 'mi')
         }
 
-        if (true || device.currentValue("chargingState") != data.chargeState.chargingState) {
+        if (device.currentValue("chargingState") != data.chargeState.chargingState) {
             sendEvent(name: "chapterdream03931.electricVehicleCharger.chargingState", value: data.chargeState.chargingState)
-            sendEvent(name: "chapterdream03931.electricVehicle.chargingState", value: null) // XXX delete
-            sendEvent(name: "chapterdream03931.electricVehicle.chargeMax", value: null) // XXX delete
         }
+        // FIXME: none of these are working correctly
+        sendEvent(name: "chargeMax", value: data.chargeState.chargeMax, unit: '%')
+        // XXX: wtf is happening here?
+        // error java.lang.NullPointerException: Cannot get property 'value' on null object @line 102 (processData)
+//		sendEvent(name: "chapterdream03931.electricVehicleCharger.chargeMax", value: 36.toFloat())
 
         // battery, dc, mains, unknown
         // TODO: when supercharging, powerSource=dc
@@ -180,7 +177,9 @@ private processData(data) {
     if (data.vehicleState) {
         sendEvent(name: "presence", value: data.vehicleState.presence)
         sendEvent(name: "lock", value: data.vehicleState.lock)
-        sendEvent(name: "chapterdream03931.automobile.odometerMiles", value: data.vehicleState.odometer, unit: 'mi')
+        if (device.currentValue("odometerMiles")?.toFloat() != data.vehicleState.odometer) {
+            sendEvent(name: "odometerMiles", value: data.vehicleState.odometer, unit: 'mi')
+        }
     }
 
     if (data.climateState) {
