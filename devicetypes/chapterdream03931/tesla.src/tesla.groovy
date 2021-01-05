@@ -19,7 +19,8 @@ metadata {
             namespace: "chapterdream03931",
             author: "Joe Hansche",
             mnmn: "SmartThingsCommunity",
-            vid: "9a21e6f1-a75f-3762-9524-fbdd391c0c55"
+            ocfDeviceType: "x.com.st.d.tesla",
+            vid: "d45508a6-ff8a-345c-8898-61cb0b3a9466"
     ) {
         // .vin, .hwVersion, .swVersion, .odometerMiles,
         // .carState = [Sleeping | Idling | Driving]
@@ -31,6 +32,7 @@ metadata {
         // .batteryRange, .chargingState
         // chargeStart, chargeStop, chargePortOpen, chargePortClose
         capability "chapterdream03931.electricVehicle"
+
 
         capability "Battery" // .battery
         capability "Energy Meter" // .energy = $ kWh
@@ -52,8 +54,6 @@ metadata {
 
         // FIXME: move these to capability
         attribute "onlineState", "string"
-        attribute "marqueeText", "string"
-        attribute "batteryBoth", "string"
 
         // FIXME: Why doesn't Thermostat Setpoint define this?
         command "setThermostatSetpoint"
@@ -97,13 +97,16 @@ private processData(data) {
     if (data.chargeState) {
         // Battery
         sendEvent(name: "battery", value: data.chargeState.battery, unit: '%')
+        
+        // FIXME: none of these are working correctly
+        sendEvent(name: "chargeMax", value: data.chargeState.chargeMax, unit: '%')
+        // XXX: wtf is happening here?
+        // error java.lang.NullPointerException: Cannot get property 'value' on null object @line 102 (processData)
+//		sendEvent(name: "chapterdream03931.electricVehicle.chargeMax", value: 36.toFloat())
 
-        if (device.currentValue("batteryRange") != data.chargeState.batteryRange) {
+        if (device.currentValue("batteryRange")?.toFloat() != data.chargeState.batteryRange) {
             sendEvent(name: "chapterdream03931.electricVehicle.batteryRange", value: data.chargeState.batteryRange, unit: 'mi')
         }
-
-//        def batteryComboString = "${data.chargeState.battery}%\n${data.chargeState.batteryRange} mi"
-//        sendEvent(name: "batteryBoth", value: batteryComboString)
 
         if (device.currentValue("chargingState") != data.chargeState.chargingState) {
             sendEvent(name: "chapterdream03931.electricVehicle.chargingState", value: data.chargeState.chargingState)
@@ -116,14 +119,6 @@ private processData(data) {
         } else if (data.chargeState.fastChargerPresent) {
             // Assuming that fastChargerPresent => Supercharger => DC
             sendEvent(name: "powerSource", value: "dc")
-            try {
-                // XXX: determine the true nature of these fields
-                log.info("JHH: fast* fields: ${data.chargeState}")
-                sendEvent(name: "jhh.fastType", value: data.chargeState.fastChargerType)
-                sendEvent(name: "jhh.fastBrand", value: data.chargeState.fastChargerBrand)
-            } catch (Exception e) {
-                log.error("JHH: unable to emit fast* events", e)
-            }
         } else {
             sendEvent(name: "powerSource", value: "mains")
         }
