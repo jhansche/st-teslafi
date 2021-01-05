@@ -11,20 +11,6 @@
             "state": {
                 "label": "{{carState.value}}"
             }
-        },
-        {
-            "label": "Version",
-            "displayType": "state",
-            "state": {
-                "label": "{{swVersion.value}}"
-            }
-        },
-        {
-            "label": "VIN",
-            "displayType": "state",
-            "state": {
-                "label": "{{vin.value}}"
-            }
         }
     ],
     "automation": {
