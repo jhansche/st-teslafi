@@ -6,10 +6,10 @@
     },
     "detailView": [
         {
-            "label": "VIN",
+            "label": "Car State",
             "displayType": "state",
             "state": {
-                "label": "{{vin.value}}"
+                "label": "{{carState.value}}"
             }
         },
         {
@@ -20,10 +20,10 @@
             }
         },
         {
-            "label": "Car State",
+            "label": "VIN",
             "displayType": "state",
             "state": {
-                "label": "{{carState.value}}"
+                "label": "{{vin.value}}"
             }
         }
     ],
@@ -51,7 +51,7 @@
                         }
                     ],
                     "value": "carState.value",
-                    "multiSelection": false
+                    "multiSelection": true
                 }
             }
         ],
