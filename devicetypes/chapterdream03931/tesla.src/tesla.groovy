@@ -102,7 +102,7 @@ private processData(data) {
     if (data.chargeState) {
         // Battery
         sendEvent(name: "battery", value: data.chargeState.battery, unit: '%')
-        
+
         if (device.currentValue("batteryRange")?.toFloat() != data.chargeState.batteryRange) {
             sendEvent(name: "chapterdream03931.electricVehicle.batteryRange", value: data.chargeState.batteryRange, unit: 'mi')
         }
@@ -129,7 +129,7 @@ private processData(data) {
 
         sendEvent(name: "energy", value: data.chargeState.chargeEnergyAdded, unit: 'kWh')
         sendEvent(name: "voltage", value: data.chargeState.chargerVoltage, unit: 'V')
-        sendEvent(name: "power", value: data.chargeState.chargerPower, unit: 'kW') // kW to W
+        sendEvent(name: "power", value: data.chargeState.chargerPower, unit: 'W')
 
         if (data.chargeState.chargingState == "charging") {
             sendEvent(name: "chargeTimeRemaining", value: data.chargeState.hoursRemaining, unit: 'h')

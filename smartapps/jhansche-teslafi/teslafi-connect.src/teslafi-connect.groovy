@@ -146,7 +146,10 @@ def refreshVehicles() {
 
             chargerVoltage: data.charger_voltage?.toInteger(), // = ~110 V
             chargerCurrent: data.charger_actual_current?.toInteger(), // = 12A
-            chargerPower: data.charger_power?.toFloat(), // = 1 kW
+            chargerPowerKw: data.charger_power?.toFloat(), // = 1 kW; FIXME: this is horribly rounded,
+            chargerPower: (data.charger_voltage == null || data.charger_actual_current == null ? null : (
+                    data.charger_voltage.toInteger() * data.charger_actual_current.toInteger()
+            )), // = ~1320 W
             chargeEnergyAdded: data.charge_energy_added?.toFloat(), // charge_energy_added // 1.57 kWh
             chargeRate: data.charge_rate?.toFloat(), // = ~0.6 MPH
 
