@@ -29,9 +29,14 @@ metadata {
         // wake, refresh
         capability "chapterdream03931.automobile"
 
+        // .batteryRange, TODO .chargingState
+        // TODO chargeStart, chargeStop, chargePortOpen, chargePortClose
+        capability "chapterdream03931.electricVehicle"
+
+        // FIXME: had to split into smaller capabilities
         // .batteryRange, .chargingState
         // chargeStart, chargeStop, chargePortOpen, chargePortClose
-        capability "chapterdream03931.electricVehicle"
+        capability "chapterdream03931.electricVehicleCharger"
 
 
         capability "Battery" // .battery
