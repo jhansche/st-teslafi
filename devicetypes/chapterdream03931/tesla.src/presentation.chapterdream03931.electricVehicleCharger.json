@@ -28,26 +28,43 @@
     "detailView": [
         {
             "label": "Charger State",
-            "displayType": "state",
-            "state": {
-                "label": "{{chargingState.value}}",
-                "alternatives": [
-                    {
-                        "key": "charging",
-                        "value": "Charging",
-                        "type": "active"
-                    },
-                    {
-                        "key": "not_charging",
-                        "value": "Not charging",
-                        "type": "inactive"
-                    },
-                    {
-                        "key": "completed",
-                        "value": "Completed",
-                        "type": "inactive"
-                    }
-                ]
+            "displayType": "toggleSwitch",
+            "toggleSwitch": {
+                "command": {
+                    "on": "chargeStart",
+                    "off": "chargeStop"
+                },
+                "state": {
+                    "value": "chargingState.value",
+                    "on": "charging",
+                    "off": "not_charging",
+                    "label": "{{chargingState.value}}",
+                    "alternatives": [
+                        {
+                            "key": "charging",
+                            "value": "Charging",
+                            "type": "active",
+                            "displayType": "pushButton",
+                            "pushButton": {
+                                "command": "chargeStop"
+                            }
+                        },
+                        {
+                            "key": "not_charging",
+                            "value": "Not charging",
+                            "type": "inactive",
+                            "displayType": "pushButton",
+                            "pushButton": {
+                                "command": "chargeStart"
+                            }
+                        },
+                        {
+                            "key": "completed",
+                            "value": "Completed",
+                            "type": "inactive"
+                        }
+                    ]
+                }
             }
         },
         {
@@ -99,7 +116,27 @@
                 }
             }
         ],
-        "actions": []
+        "actions": [
+            {
+                "label": "Charger State",
+                "displayType": "list",
+                "list": {
+                    "alternatives": [
+                        {
+                            "key": "chargeStart",
+                            "label": "Start Charging",
+                            "type": "active"
+                        },
+                        {
+                            "key": "chargeStop",
+                            "label": "Stop Charging",
+                            "type": "inactive"
+                        }
+                    ]
+                },
+                "emphasis": true
+            }
+        ]
     },
     "id": "chapterdream03931.electricVehicleCharger",
     "version": 1
