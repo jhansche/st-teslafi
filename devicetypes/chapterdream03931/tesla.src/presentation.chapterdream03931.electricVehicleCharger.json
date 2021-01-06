@@ -124,12 +124,12 @@
                     "alternatives": [
                         {
                             "key": "chargeStart",
-                            "label": "Start Charging",
+                            "value": "Start Charging",
                             "type": "active"
                         },
                         {
                             "key": "chargeStop",
-                            "label": "Stop Charging",
+                            "value": "Stop Charging",
                             "type": "inactive"
                         }
                     ]
