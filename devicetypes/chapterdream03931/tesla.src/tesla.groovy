@@ -52,7 +52,7 @@ metadata {
         capability "Sleep Sensor" // .sleeping = [sleeping, not_sleeping]
         capability "Temperature Measurement"
         capability "Thermostat Mode" // .thermostatMode = [auto, off]
-        capability "Thermostat Setpoint"
+        capability "Thermostat Setpoint" // FIXME: does not include setThermostatSetpoint()
         capability "Timed Session" // .completionTime, .sessionStatus; https://docs.smartthings.com/en/latest/capabilities-reference.html#id97
         capability "Tone" // use it for the horn?
         capability "Voltage Measurement" // .voltage = $ V

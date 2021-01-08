@@ -13,41 +13,21 @@
                 "component": "main",
                 "capability": "chapterdream03931.automobile",
                 "version": 1,
-                "values": [
-                    {
-                        "key": "carState",
-                        "enabledValues": [
-                            "Driving"
-                        ]
-                    }
-                ],
+                "values": [],
                 "patch": []
             },
             {
                 "component": "main",
                 "capability": "chapterdream03931.electricVehicle",
                 "version": 1,
-                "values": [
-                    {
-                        "key": "batteryRange",
-                        "enabledValues": []
-                    }
-                ],
+                "values": [],
                 "patch": []
             },
             {
                 "component": "main",
                 "capability": "chapterdream03931.electricVehicleCharger",
                 "version": 1,
-                "values": [
-                    {
-                        "key": "chargingState",
-                        "enabledValues": [
-                            "charging",
-                            "completed"
-                        ]
-                    }
-                ],
+                "values": [],
                 "patch": []
             }
         ],
@@ -102,7 +82,15 @@
             "capability": "chapterdream03931.electricVehicleCharger",
             "version": 1,
             "values": [],
-            "patch": []
+            "patch": [],
+            "visibleCondition": {
+                "capability": "powerSource",
+                "version": 1,
+                "component": "main",
+                "value": "powerSource.value",
+                "operator": "DOES_NOT_EQUAL",
+                "operand": "battery"
+            }
         },
         {
             "component": "main",
@@ -137,7 +125,15 @@
             "capability": "thermostatSetpoint",
             "version": 1,
             "values": [],
-            "patch": []
+            "patch": [],
+            "visibleCondition": {
+                "capability": "thermostatMode",
+                "version": 1,
+                "component": "main",
+                "value": "thermostatMode.value",
+                "operator": "DOES_NOT_EQUAL",
+                "operand": "off"
+            }
         },
         {
             "component": "main",
@@ -473,8 +469,8 @@
             }
         ]
     },
-    "presentationId": "86e40fa8-38e9-3e9c-a069-4a58ad18715a",
+    "presentationId": "d487bc57-082d-3b19-873c-a0c4899877bc",
     "manufacturerName": "SmartThingsCommunity",
-    "vid": "86e40fa8-38e9-3e9c-a069-4a58ad18715a",
+    "vid": "d487bc57-082d-3b19-873c-a0c4899877bc",
     "mnmn": "SmartThingsCommunity"
 }
