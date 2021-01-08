@@ -20,7 +20,7 @@ metadata {
             author: "Joe Hansche",
             mnmn: "SmartThingsCommunity",
             ocfDeviceType: "x.com.st.d.tesla",
-            vid: "86e40fa8-38e9-3e9c-a069-4a58ad18715a"
+            vid: "d487bc57-082d-3b19-873c-a0c4899877bc"
     ) {
         // .vin, .hwVersion, .swVersion, .odometerMiles,
         // .carState = [Sleeping | Idling | Driving]
@@ -52,7 +52,7 @@ metadata {
         capability "Sleep Sensor" // .sleeping = [sleeping, not_sleeping]
         capability "Temperature Measurement"
         capability "Thermostat Mode" // .thermostatMode = [auto, off]
-        capability "Thermostat Setpoint" // FIXME: does not include setThermostatSetpoint()
+        capability "Thermostat Setpoint"
         capability "Timed Session" // .completionTime, .sessionStatus; https://docs.smartthings.com/en/latest/capabilities-reference.html#id97
         capability "Tone" // use it for the horn?
         capability "Voltage Measurement" // .voltage = $ V
