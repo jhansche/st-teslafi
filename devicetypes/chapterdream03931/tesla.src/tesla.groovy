@@ -19,7 +19,8 @@ metadata {
             namespace: "chapterdream03931",
             author: "Joe Hansche",
             mnmn: "SmartThingsCommunity",
-            ocfDeviceType: "x.com.st.d.tesla",
+            // ocfDeviceType: "x.com.st.d.tesla",
+            ocfDeviceType: "oic.d.vehicleconnector",
             vid: "d487bc57-082d-3b19-873c-a0c4899877bc"
     ) {
         // .vin, .hwVersion, .swVersion, .odometerMiles,
