@@ -128,7 +128,14 @@ def refreshVehicles() {
     result.state = data.state // "online", even when carState==sleeping; when would state be anything else?
     result.car_state = data.carState // "Sleeping"
     result.sleep_state = data.carState == "Sleeping" ? "sleeping" : "not sleeping"
-    result.version = data.car_version
+    def versionParts = data.car_version.tokenize(" ")
+    result.version = versionParts[0]
+    result.versionId = versionParts[1]
+
+    if (data.newVersionStatus == "available") {
+        // "newVersion":"2020.48.35.5","newVersionStatus":"available"
+        result.availableVersion = data.newVersion
+    }
 
     result.driveState = [
             latitude: data.latitude,
@@ -245,6 +252,7 @@ def initialize() {
 def refresh(child) {
     def data = [:]
     def id = child.device.deviceNetworkId
+    log.info("Trying to refresh child ${id}")
     refreshVehicles()
     return state.vehicleData[id]
 }
